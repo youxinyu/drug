@@ -70,13 +70,13 @@
             <artifactId>thymeleaf-extras-shiro</artifactId>
             <version>2.0.0</version>
         </dependency>
-        <!-- 热部署 -->
+        <!-- mybatis分页插件 -->
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-devtools</artifactId>
+            <groupId>com.github.pagehelper</groupId>
+            <artifactId>pagehelper</artifactId>
+            <version>4.1.4</version>
         </dependency>
     </dependencies>
-
     <build>
         <plugins>
             <plugin>

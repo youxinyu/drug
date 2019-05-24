@@ -1,5 +1,46 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.guigu.drug.wzr.dao.MessageMapper" >
-    
+
+    <resultMap id="styledrugMap" type="com.guigu.drug.wzr.domain.Druginfo">
+        <id column="drugid" property="drugid" jdbcType="INTEGER"></id>
+        <result column="drugbarcode" property="drugbarcode" jdbcType="VARCHAR"></result>
+        <result column="drugname" property="drugname" jdbcType="VARCHAR"></result>
+        <result column="drugabbreviation" property="drugabbreviation" jdbcType="VARCHAR"></result>
+        <result column="drugspecification" property="drugspecification" jdbcType="VARCHAR"></result>
+        <result column="drugunit" property="drugunit" jdbcType="VARCHAR"></result>
+        <result column="drugproduceaddress" property="drugproduceaddress" jdbcType="VARCHAR"></result>
+        <result column="drugapprovalnumber" property="drugapprovalnumber" jdbcType="VARCHAR"></result>
+        <result column="drugproductdate" property="drugproductdate" jdbcType="VARCHAR"></result>
+        <result column="drugbaozhiqi" property="drugbaozhiqi" jdbcType="INTEGER"></result>
+        <result column="drugstock" property="drugstock" jdbcType="INTEGER"></result>
+        <result column="drugbuyingprice" property="drugbuyingprice" jdbcType="DOUBLE"></result>
+        <result column="drugsellingprice" property="drugsellingprice" jdbcType="DOUBLE"></result>
+        <collection property="s" javaType="com.guigu.drug.wzr.domain.Styledrug">
+            <result column="typedrug" property="typedrug" jdbcType="VARCHAR"></result>
+        </collection>
+    </resultMap>
+    <select id="drugselectwzr" parameterType="com.guigu.drug.wzr.domain.DrugwzrVo" resultMap="styledrugMap">
+          select d.drugid,d.drugbarcode,d.drugname,d.drugabbreviation,d.drugapprovalnumber,d.drugbaozhiqi
+        ,d.drugbuyingprice,d.drugproduceaddress,d.drugproductdate,d.drugsellingprice,d.drugspecification,
+        d.drugstock,d.drugunit,s.typedrug from druginfo d inner join styledrug s on d.typeid=s.typeid
+            <where>
+                <if test="i.drugbarcode!=null and i.drugbarcode!=''">
+                    d.drugbarcode like "%"#{i.drugbarcode}"%"
+                </if>
+                <if test="i.drugname!=null and i.drugname!=''">
+                    and d.drugname like "%"#{i.drugname}"%"
+                </if>
+                <if test="s.typeidd!=null and s.typeidd!=''">
+                    and d.typeid=#{s.typeidd}
+                </if>
+                <if test="date1!=null and date1!='' and date2!=null and date2!=''">
+                    and d.drugproductdate between #{date1} and #{date2}
+                </if>
+            </where>
+    </select>
+
+    <select id="typedrugall" resultType="com.guigu.drug.wzr.domain.Styledrug">
+        select * from styledrug
+    </select>
 </mapper>
