@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>客户信息查询</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/css/bootstrap.min.css">
+    <script type="text/javascript" src="js/jquery-3.3.1.js"></script>
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap-paginator.js"></script>
+
+</head>
+<style>
+    th {
+        text-align: center;
+        height: 30px;
+    }
+    td{
+        text-align: center;
+        max-width:80px;
+        word-wrap:break-word;
+        text-overflow:ellipsis;
+        white-space:nowrap;
+        overflow:hidden;
+    }
+    td:hover{
+        white-space:normal;
+        overflow:auto;
+    }
+</style>
+<body>
+<div class="container">
+    <br><br>
+    <div align="center">
+        <div class="form-inline">
+            <input id="ke1" type="text" class="form-control" style="width: 160px;" placeholder="请输入客户名称">&nbsp;&nbsp;&nbsp;&nbsp;
+            <input id="ke2" type="text" class="form-control" style="width: 160px;" placeholder="请输入客户地址">&nbsp;&nbsp;&nbsp;&nbsp;
+            <input id="ke3" type="text" class="form-control" style="width: 160px;" placeholder="请输入客户拼音编码">&nbsp;&nbsp;&nbsp;&nbsp;
+            <input id="ke4" type="text" class="form-control" style="width: 160px;" placeholder="请输入客户电话">&nbsp;&nbsp;&nbsp;&nbsp;
+            <input id="ke5" type="text" class="form-control" style="width: 160px;" placeholder="请输入做鸡号">&nbsp;&nbsp;&nbsp;&nbsp;
+            <input type="button" class="btn btn-primary" onclick="fenyechaxun(1)" style="width: 80px;height: 36px;" value="查询">
+        </div>
+        <br><br>
+        <table id='gongyingshangwzr' border="1" class="table table-striped table-bordered">
+
+        </table>
+        <div align="center">
+            <ul class="pagination"></ul>
+        </div>
+    </div>
+</div>
+</body>
+<script>
+    $(function () {
+        fenyechaxun(1);
+    });
+    /*多条件分页查询*/
+    function fenyechaxun(pagee) {
+        var ke1 = $("#ke1").val();
+        var ke2 = $("#ke2").val();
+        var ke3 = $("#ke3").val();
+        var ke4 = $("#ke4").val();
+        var ke5 = $("#ke5").val();
+
+        $.ajax({
+            url: "clientselect",
+            data: {
+                page: pagee,
+                name: ke1,
+                uname:ke3,
+                dizhi:ke2,
+                chuanzhen: ke5,
+                phone:ke4
+            },
+            success: function (da) {
+                $("#gongyingshangwzr").empty();
+                if (da.total == 0) {
+                    $("#gongyingshangwzr").append("<tr><td>亲，暂未搜索到我们的客户鸭！！</td></tr>");
+                } else {
+                    $("#gongyingshangwzr").append("<tr><th>编号</th><th>客户姓名</th><th>简称</th><th>客户地址</th><th>开户银行</th><th>银行账号</th><th>拼音编码</th><th>联系人</th><th>邮政编码</th><th>电话</th><th>做鸡</th><th>业务员</th></tr>");
+                    for (i = 0; i < da.rows.length; i++) {
+                        $("#gongyingshangwzr").append("<tr><td><input value='"+da.rows[i].clientid +"' type='checkbox'></td><td>" + da.rows[i].clientname + "</td><td>" + da.rows[i].clientabbreviation + "</td><td>"+da.rows[i].clientaddress+"</td><td>" + da.rows[i].clientopenbank + "</td><td>" + da.rows[i].clientcardno + "</td><td>" + da.rows[i].clientpinyin + "</td><td>" + da.rows[i].clientcontacts + "</td>" +
+                            "<td>" + da.rows[i].clientyoubian+ "</td><td>" + da.rows[i].clientphone +"</td><td>" + da.rows[i].clientfax +"</td><td>" + da.rows[i].user.username +"</td></tr>");
+                    }
+
+                    $(".pagination").bootstrapPaginator({
+                        bootstrapMajorVersion:1,    //版本
+                        currentPage: pagee,    //当前页数
+                        numberOfPages: 5,    //最多显示Page页
+                        totalPages: da.total,    //所有数据可以显示的页数
+                        itemTexts: function (type, page, current) {//设置分页按钮显示字体样式
+                            switch (type) {
+                                case "first":
+                                    return "首页";
+                                case "prev":
+                                    return "上一页";
+                                case "next":
+                                    return "下一页";
+                                case "last":
+                                    return "末页";
+                                case "page":
+                                    return page;
+                            }
+                        },
+                        onPageClicked: function (e, originalEvent, type, page) {
+                            fenyechaxun(page);
+                        }
+                    });
+                }
+            }
+
+        })
+    }
+</script>
+</html>

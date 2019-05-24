@@ -1,8 +1,6 @@
 package com.guigu.drug.wzr.service;
 
-import com.guigu.drug.wzr.domain.Druginfo;
-import com.guigu.drug.wzr.domain.DrugwzrVo;
-import com.guigu.drug.wzr.domain.Styledrug;
+import com.guigu.drug.wzr.domain.*;
 
 import java.util.List;
 
@@ -12,4 +10,10 @@ public interface MessageService {
     List<Druginfo> drugselectwzr(DrugwzrVo vo);
     //所有药品类型
     List<Styledrug> typedrugall();
+
+    //供应商信息查询
+    List<Supplierinfo> supplierselect(SupplierVo vo);
+
+    //客户信息查询
+    List<Clientinfo> clientselect(Clientinfo info);
 }

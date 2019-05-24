@@ -130,7 +130,7 @@
                     $("#yaopinwzr").append("<tr><th>编号</th><th>药品名称</th><th>简称</th><th>类别</th><th>产地</th><th>条形码</th><th>库存</th><th>规格</th><th>生产日期</th><th>保质期</th><th>进货价格</th><th>零售价格</th><th>批准文号</th><th>单位</th></tr>");
                     for (i = 0; i < da.rows.length; i++) {
                         $("#yaopinwzr").append("<tr><td><input value='"+da.rows[i].drugid +"' type='checkbox'></td><td>" + da.rows[i].drugname + "</td><td>" + da.rows[i].drugabbreviation + "</td><td>"+da.rows[i].s.typedrug+"</td><td>" + da.rows[i].drugproduceaddress + "</td><td>" + da.rows[i].drugbarcode + "</td><td>" + da.rows[i].drugstock + "</td><td>" + da.rows[i].drugspecification + "</td><td>" + da.rows[i].drugproductdate + "</td>" +
-                            "<td>" + da.rows[i].drugbaozhiqi+ "个月</td><td>" + da.rows[i].drugbuyingprice +"</td><td>" + da.rows[i].drugsellingprice +"</td><td>" + da.rows[i].drugapprovalnumber +"</td><td>" + da.rows[i].drugunit +"</td></tr>");
+                            "<td>" + da.rows[i].drugbaozhiqi+ "个月</td><td>" + da.rows[i].drugbuyingprice +"元</td><td>" + da.rows[i].drugsellingprice +"元</td><td>" + da.rows[i].drugapprovalnumber +"</td><td>" + da.rows[i].drugunit +"</td></tr>");
                     }
 
                     $(".pagination").bootstrapPaginator({

@@ -1,8 +1,6 @@
 package com.guigu.drug.wzr.dao;
 
-import com.guigu.drug.wzr.domain.Druginfo;
-import com.guigu.drug.wzr.domain.DrugwzrVo;
-import com.guigu.drug.wzr.domain.Styledrug;
+import com.guigu.drug.wzr.domain.*;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -14,5 +12,11 @@ public interface MessageMapper {
     List<Druginfo> drugselectwzr(DrugwzrVo vo);
     //所有药品类型
     List<Styledrug> typedrugall();
+
+    //供应商信息查询
+    List<Supplierinfo> supplierselect(SupplierVo vo);
+
+    //客户信息查询
+    List<Clientinfo> clientselect(Clientinfo info);
 
 }
