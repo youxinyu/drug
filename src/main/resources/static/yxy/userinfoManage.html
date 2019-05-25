@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>管理员查询</title>
+</head>
+<!--<link rel="stylesheet" href="bootstrap1/bootstrap.min.css"/>
+<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/css/bootstrap.min.css"/>
+<link rel="stylesheet" href="../css/xcConfirm.css">
+<link href="./bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
+<script src="js/jquery-3.3.1.js"></script>
+<script src="../css/xcConfirm.js"></script>
+<script src="bootstrap1/js/bootstrap.min.js"></script>
+<script src="bootstrap1/js/bootbox.min.js"></script>
+<script type="text/javascript" src="bootstrap1/bootstrap-paginator.js"></script>
+<script src="https://cdn.staticfile.org/popper.js/1.12.5/umd/popper.min.js"></script>
+<script src="js/month.js"></script>
+<script
+        src="https://cdn.bootcss.com/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>-->
+
+<body class="bg-light">
+<div class="container-fluid bg-light" style="height: 100%;">
+    <div class="row navbar navbar-expand-sm"
+         style="background-color: #F3F3F3; border: 1px solid #E4E4E4;">
+        <a class="navbar-brand text-muted" href="#">
+            <div>
+                <img src="img/首页.png"/>&nbsp;管理员查询
+            </div>
+        </a>
+    </div>
+    <div class="row navbar navbar-expand-sm "
+         style="background-color: #F3F3F3; border: 1px solid #E4E4E4;">
+        <div class="col-xl-10">
+            <div class="row" style="background-color: #F3F3F3;">
+                <a class="navbar-brand text-muted" href="#">
+                    <div>
+                        <img src="img/sousuo%20(6).png"/>&nbsp;高级查询
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="col-xl-2">
+            <button type="button" onclick="finduser()" class="btn btn-primary">
+                <img src="img/sousuo%20(3).png"/> 查询
+            </button>
+            <button type="button" onclick="reset()" class="btn btn-primary">
+                <img src="img/chongzhi.png"/> 重置
+            </button>
+        </div>
+    </div>
+    <div class="row navbar-expand-sm" align="center">
+        <div class="col-xl-3">
+            <button class='btn btn-primary btn-md' onclick="adduserdiv()">新增</button>
+        </div>
+        <div class="col-xl-2">
+            <input type="text" id="username1" class="form-control" placeholder="请输入姓名">
+        </div>
+        <div class="col-xl-2">
+            <select id="deptname1" class="form-control" style="height: 35px">
+
+            </select>
+        </div>
+        <div class="col-xl-1">
+            <span id="se" style="color: red"></span>
+        </div>
+    </div>
+    </br>
+    <div class="row navbar navbar-expand-sm"
+         style="background-color: #F3F3F3; border: 1px solid #E4E4E4;">
+        <a class="navbar-brand text-muted" href="#">
+            <div>
+                <img src="img/createtask_fill.png"/>&nbsp;数据记录
+            </div>
+        </a>
+    </div>
+    <div class="row navbar-expand-sm" style="height: 400px">
+        <table class="table table-striped table-bordered" id="results">
+            <thead>
+            <tr align="center">
+                <th style="text-align: center;">用户编号</th>
+                <th style="text-align: center;">用户姓名</th>
+                <th style="text-align: center;">用户账号</th>
+                <th style="text-align: center;">性别</th>
+                <th style="text-align: center;">年龄</th>
+                <th style="text-align: center;">电话</th>
+                <th style="text-align: center;">职务</th>
+                <th style="text-align: center;">部门</th>
+                <th style="text-align: center;">操作</th>
+            </tr>
+            </thead>
+            <tbody id="tbody_1" align="center">
+            </tbody>
+        </table>
+    </div>
+
+    <div class="row navbar-expand-sm">
+        <div class="col-xl-12">
+            <ul class="pagination pagination-lg" style="float: right;">
+
+            </ul>
+        </div>
+    </div>
+
+    <div class="row navbar-expand-sm">
+        <div class="col-lg-12 text-center">
+            <font color="#AEAEAE"> <br> Copyright , All Rights Reserved. <br>
+                版权归湖南硅谷高科学院所有，不得用 于再出售等商业用途。违者必究！ <br> 合作请联系:www.yip2p.com
+            </font>
+        </div>
+    </div>
+</div>
+<!-- 模态框（Modal） -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="myModalLabel"></h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="col-md-12">
+                    <label class="col-md-3">用户编号</label>
+                    <input class="col-md-9 form-control" id="userid" readonly=true/>
+                </div>
+                <br><br><br>
+                <div class="col-md-12">
+                    <label class="col-md-3">用户姓名</label>
+                    <input class="col-md-9 form-control" id="username">
+                    <label class="col-md-3"></label>
+                    <label class="col-md-9 text-danger" hidden=true>用户姓名不为空</label>
+                </div>
+                <br><br><br>
+                <div class="col-md-12">
+                    <label class="col-md-3">用户账号</label>
+                    <input class="col-md-9 form-control" id="account">
+                    <label class="col-md-3"></label>
+                    <label class="col-md-9 text-danger" hidden=true>用户账号不为空</label>
+                </div>
+                <br><br><br>
+                <div class="col-md-12">
+                    <label class="col-md-3">用户性别</label>
+                    <div class="form-control col-md-9">
+                        <div class="col-md-6"><input id="man" type="radio" value="男" name="sex" checked=true>男</div>
+                        <div class="col-md-6"><input id="woman" type="radio" value="女" name="sex">女</div>
+                    </div>
+                </div>
+                <br><br><br>
+                <div class="col-md-12">
+                    <label class="col-md-3">用户年龄</label>
+                    <input class="col-md-9 form-control" type="number" min="18" max="65" value="20" id="age">
+                </div>
+                <br><br><br>
+                <div class="col-md-12">
+                    <label class="col-md-3">用户电话</label>
+                    <input class="col-md-9 form-control" id="phone">
+                    <label class="col-md-3"></label>
+                    <label class="col-md-9 text-danger" hidden=true>用户电话不为空</label>
+                </div>
+                <br><br><br>
+                <div class="col-md-12">
+                    <label class="col-md-3">所在部门</label>
+                    <select id="role" class="col-md-9 form-control" style="height: 10%"></select>
+                </div>
+            </div>
+            <div class="modal-footer" id="modalfooter">
+
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+</body>
+<script>
+    $(function () {
+        $.ajax({
+            url: "/yxy/finddept.do",
+            data: {},
+            type: "post",
+            datatype: "json",
+            success: function (data) {
+                $("#deptname1").html("<option value='0'>所有部门</option>");
+                for (var i = 0; i < data.length; i++) {
+                    $("#deptname1").append("<option value='" + data[i].did + "'>" + data[i].dname + "</option>");
+                }
+            }
+        });
+        $.ajax({
+            url: "/yxy/findrole.do",
+            data: {},
+            type: "post",
+            datatype: "json",
+            success: function (data) {
+                $("#role").html("");
+                for (var i = 0; i < data.length; i++) {
+                    $("#role").append("<option value='" + data[i].rid + "'>" + data[i].rname + "</option>");
+                }
+            }
+        });
+        finduser();
+
+    })
+    //查询用户
+    function finduser(page) {
+        page = page == null ? 1 : page;
+        var did = $("#deptname1").val();
+        var username = $("#username1").val();
+        did = did == null ? 0 : did;
+        $.ajax({
+            url: "/yxy/finduserinfo.do",
+            data: {
+                username: username,
+                did: did,
+                page: page,
+                rows: 5
+            },
+            type: "post",
+            datatype: "json",
+            success: function (data) {
+                $("#tbody_1").html("");
+                for (var i = 0; i < data.rows.length; i++) {
+                    var str="";
+                    if(data.rows[i].workstate=="在职中"){
+                        str="<button class='btn bg-primary' onclick='updatediv(" + data.rows[i].userid + ")'>编辑</button>";
+                    }else{
+                        str="<button class='btn bg-primary' onclick='updatediv(" + data.rows[i].userid + ")'>编辑</button>&nbsp;&nbsp;&nbsp;&nbsp;" +
+                            "<button class='btn bg-primary' onclick='deleteuser(\" + data.rows[i].userid + \")'>离职</button>";
+                    }
+                    $("#tbody_1").append(
+                        "<tr><td>" + data.rows[i].userid + "</td>" +
+                        "<td>" + data.rows[i].username + "</td>" +
+                        "<td>" + data.rows[i].account + "</td>" +
+                        "<td>" + data.rows[i].sex + "</td>" +
+                        "<td>" + data.rows[i].age + "</td>" +
+                        "<td>" + data.rows[i].phone + "</td>" +
+                        "<td>" + data.rows[i].rname + "</td>" +
+                        "<td>" + data.rows[i].dname + "</td>" +
+                        "<td>"+str+"</td></tr>");
+                }
+                $(".pagination").bootstrapPaginator(
+                    {
+                        bootstrapMajorVersion: 3,
+                        currentPage: page,
+                        numberOfPages: 2,
+                        totalPages: data.total,
+                        size: "small",
+                        alignment: "center",
+                        onPageClicked: function (event,
+                                                 originalEvent, type, page) {
+                            finduser(page);
+
+                        }
+                    });
+            }
+        });
+    }
+    //重置查询条件
+    function reset() {
+        $("#deptname1").val(0);
+        $("#username1").val("");
+    }
+    //打开新增框
+    function adduserdiv() {
+        $("#username").val("");
+        $("#account").val("");
+        $("#phone").val("");
+        $("#myModal").modal("show");
+        $("#myModalLabel").html("新增用户")
+        $("#modalfooter").html(
+            '<button type="button" class="btn btn-primary" onclick="adduser()">提交更改</button>' +
+            '<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>');
+    }
+    //新增用户
+    function adduser() {
+        var username=$("#username").val();
+        var account=$("#account").val();
+        var sex=$("input[name='sex']").val();
+        var age=$("#age").val();
+        var phone=$("#phone").val();
+        var rid=$("#role").val();
+        $.ajax({
+            url: "/yxy/adduser.do",
+            data: {
+                username:username,
+                account:account,
+                sex:sex,
+                age:age,
+                rid:rid,
+                phone:phone,
+            },
+            type: "post",
+            datatype: "json",
+            success: function (data) {
+                if(data>0){
+                    window.wxc.xcConfirm("添加成功！", window.wxc.xcConfirm.typeEnum.warning);
+                    finduser();
+                    $("#myModal").modal("hide");
+                }else{
+                    window.wxc.xcConfirm("添加失败！", window.wxc.xcConfirm.typeEnum.warning);
+                }
+            }
+        });
+    }
+    //打开修改框
+    function updatediv(userid) {
+        $("#myModal").modal("show");
+        $("#myModalLabel").html("修改用户")
+        $("#modalfooter").html(
+            '<button type="button" class="btn btn-primary" onclick="updateuser()">提交更改</button>' +
+            '<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>');
+        $.ajax({
+            url: "/yxy/finduserinfobyuserid.do",
+            data: {
+                userid:userid,
+            },
+            type: "post",
+            datatype: "json",
+            success: function (data) {
+                $("#userid").val(data.userid);
+                $("#username").val(data.username);
+                $("#account").val(data.account);
+                $("#phone").val(data.phone);
+                $("#role").val(data.rid);
+                $("#age").val(data.age);
+                if(data.sex=="男"){
+                    $("input[name='sex']:eq(0)").attr("checked",true);
+                }else{
+                    $("input[name='sex']:eq(1)").attr("checked",true);
+                }
+
+            }
+        });
+
+    }
+    function updateuser() {
+        var userid=$("#userid").val();
+        var username=$("#username").val();
+        var account=$("#account").val();
+        var phone=$("#phone").val();
+        var role=$("#role").val();
+        var sex=$("input[name='sex']:checked").val();
+        var age=$("#age").val();
+        $.ajax({
+            url: "/yxy/updateuser.do",
+            data: {
+                userid: userid,
+                username:username,
+                account:account,
+                phone:phone,
+                rid:role,
+                sex:sex,
+                age:age,
+            },
+            type: "post",
+            datatype: "json",
+            success: function (data) {
+                if(data>0){
+                    window.wxc.xcConfirm("编辑成功！", window.wxc.xcConfirm.typeEnum.warning);
+                    finduser();
+                    $("#myModal").modal("hide");
+                }else{
+                    window.wxc.xcConfirm("编辑失败！", window.wxc.xcConfirm.typeEnum.warning);
+                }
+            }
+        });
+    }
+</script>
+</html>

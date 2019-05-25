@@ -12,7 +12,6 @@ public class TreenavImpol implements TreenavService{
     @Autowired
     private TreenavMapper mapper;
 
-    @Override
     public List<Treenav> findtreenavbynid(int nid) {
         return mapper.findtreenavbynid(nid);
     }

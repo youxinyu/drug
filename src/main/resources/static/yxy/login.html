@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+	<link rel="stylesheet" href="../css/xcConfirm.css">
+	 <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+	<script src="../css/xcConfirm.js"></script>
+	 <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	 <style>
+		 #login{
+			 height: 400px;
+			 float: right;
+			 margin-right: 37%;
+			 margin-top: 10%;
+			 border-radius: 25px;
+			 background: rgba(0,0,0,0.5);
+		 }
+		 body{
+			 background-image: url("img/FLAMING MOUNTAIN.JPG");
+			 background-size:cover;
+			 background-repeat:repeat-x,repeat-y;
+			 background-clip: inherit;
+			 height: 100%;
+			 width: 100%;
+		 }
+		 #login_title{
+			 
+		 }
+		 input{
+			 height: 10%;
+		 }
+		 
+	 </style>
+	 
+	<body>
+		<div class="container-fluid" >
+			<div id="login" class="col-md-3">
+				<div id="login_title" class="col-md-12 text-center"><h1><font color="white">登录</font></h1></div>
+				<div>
+					<h3><font color="white">用户账号</font></h3>
+					<input id="account" class="col-md-12 input-lg" placeholder="请输入用户账号"/>
+					<br><br><br><br>
+					<h3><font color="white">用户密码</font></h3>
+					<input id="password" class="col-md-12 input-lg" type="password" placeholder="请输入用户密码"/>
+					<br><br><br><br>
+					<div class="col-md-3"></div><input class="btn btn-success btn-lg col-md-6" type="button" value="登录" onclick="login()"/>
+				</div>
+			</div>
+		</div>
+	</body>
+	<script>
+		$(function(){
+
+		})
+		function login(){
+		    var account=$("#account").val();
+            var password=$("#password").val();
+            if(/^(?=.*\d)(?=.*[a-zA-Z])(?=.*[\W_]).{6,12}$/.test(account)){
+                window.wxc.xcConfirm("账号错误！", window.wxc.xcConfirm.typeEnum.warning);
+			}else if(/^(?=.*\d)(?=.*[a-zA-Z])(?=.*[\W_]).{6,12}$/.test(password)){
+                window.wxc.xcConfirm("密码错误！", window.wxc.xcConfirm.typeEnum.warning);
+			}else{
+                $.ajax({
+                    url: "/yxy/login.do",
+                    data: {
+                        account:account,
+						password:password,
+					},
+                    type: "post",
+                    datatype: "json",
+                    success: function (data) {
+                        if(data>0){
+                            window.wxc.xcConfirm("登录成功！", window.wxc.xcConfirm.typeEnum.warning);
+						}else{
+                            window.wxc.xcConfirm("登录失败！", window.wxc.xcConfirm.typeEnum.warning);
+						}
+                    }
+                });
+			}
+		}
+	</script>
+</html>
