@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.guigu.drug.tanlong.dao.DrugInfoDao" >
+
+    <insert id="druginfoins" parameterType="com.guigu.drug.tanlong.pojo.DrugInfo">
+
+        insert into druginfo(drugbarcode,drugname,drugabbreviation,drugspecification,drugunit,drugproduceaddress,drugapprovalnumber,drugbuyingprice,drugsellingprice,drugstock,drugbaozhiqi,drugproductdate) values
+        (#{drugbarcode},#{drugname},#{drugabbreviation},#{drugspecification},#{drugunit},#{drugproduceaddress},#{drugapprovalnumber},#{drugbuyingprice},#{drugsellingprice},#{drugstock},#{drugbaozhiqi},#{drugproductdate});
+
+    </insert>
+
+    <select id="druginfosel" resultType="com.guigu.drug.tanlong.pojo.DrugInfo">
+
+        select * from druginfo where drugstock &lt;=50
+
+    </select>
+
+    <select id="druginfosel2" resultType="com.guigu.drug.tanlong.pojo.DrugInfo">
+
+        select * from druginfo
+
+    </select>
+
+    <select id="druginfoselid" resultType="com.guigu.drug.tanlong.pojo.DrugInfo" parameterType="com.guigu.drug.tanlong.pojo.DrugInfo">
+
+        select * from druginfo where drugid=#{drugid}
+
+    </select>
+
+    <update id="druginfoupd" parameterType="com.guigu.drug.tanlong.pojo.DrugInfo">
+
+      update druginfo set drugstock=#{drugstock} where drugid=#{drugid}
+
+    </update>
+
+
+
+</mapper>

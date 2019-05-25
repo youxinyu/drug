@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.guigu.drug.tanlong.dao.DrugrecordDao" >
+
+
+    <resultMap id="drugrecordMap" type="com.guigu.drug.tanlong.pojo.Drugrecord">
+        <id column="rdid" property="rdid" jdbcType="INTEGER"></id>
+        <result column="drugid" property="drugid" jdbcType="INTEGER"></result>
+        <result column="supplierid" property="supplierid" jdbcType="INTEGER"></result>
+        <result column="userid" property="userid" jdbcType="INTEGER"></result>
+        <result column="rquantity" property="rquantity" jdbcType="INTEGER"></result>
+        <result column="rprice" property="rprice" jdbcType="DOUBLE"></result>
+        <result column="rdate" property="rdate" jdbcType="VARCHAR"></result>
+        <result column="rstatus" property="rstatus" jdbcType="VARCHAR"></result>
+
+        <association property="f" javaType="com.guigu.drug.tanlong.pojo.SupplierInfo" >
+            <id column="supplierid" property="supplierid" jdbcType="INTEGER"></id>
+            <result column="suppliername" property="suppliername" jdbcType="VARCHAR"></result>
+            <result column="supplierpinyin" property="supplierpinyin" jdbcType="VARCHAR"></result>
+            <result column="supplierabbreviation" property="supplierabbreviation" jdbcType="VARCHAR"></result>
+            <result column="suppliercontacts" property="suppliercontacts" jdbcType="VARCHAR"></result>
+            <result column="supplieraddress" property="supplieraddress" jdbcType="VARCHAR"></result>
+            <result column="supplieryoubian" property="supplieryoubian" jdbcType="VARCHAR"></result>
+            <result column="supplierphone" property="supplierphone" jdbcType="VARCHAR"></result>
+            <result column="supplierfax" property="supplierfax" jdbcType="VARCHAR"></result>
+            <result column="supplieropenbank" property="supplieropenbank" jdbcType="VARCHAR"></result>
+            <result column="suppliercardno" property="suppliercardno" jdbcType="VARCHAR"></result>
+            <result column="supplierstoreroom" property="supplierstoreroom" jdbcType="VARCHAR"></result>
+            <result column="supplierstoreroomphone" property="supplierstoreroomphone" jdbcType="VARCHAR"></result>
+            <result column="suppliersalesman" property="suppliersalesman" jdbcType="INTEGER"></result>
+        </association>
+
+        <association property="i" javaType="com.guigu.drug.tanlong.pojo.DrugInfo">
+            <id column="drugid" property="drugid" jdbcType="INTEGER"></id>
+            <result column="drugbarcode" property="drugbarcode" jdbcType="VARCHAR"></result>
+            <result column="drugname" property="drugname" jdbcType="VARCHAR"></result>
+            <result column="drugabbreviation" property="drugabbreviation" jdbcType="VARCHAR"></result>
+            <result column="drugspecification" property="drugspecification" jdbcType="VARCHAR"></result>
+            <result column="drugunit" property="drugunit" jdbcType="VARCHAR"></result>
+            <result column="drugproduceaddress" property="drugproduceaddress" jdbcType="VARCHAR"></result>
+            <result column="drugapprovalnumber" property="drugapprovalnumber" jdbcType="VARCHAR"></result>
+            <result column="drugproductdate" property="drugproductdate" jdbcType="VARCHAR"></result>
+            <result column="drugbaozhiqi" property="drugbaozhiqi" jdbcType="INTEGER"></result>
+            <result column="drugstock" property="drugstock" jdbcType="INTEGER"></result>
+            <result column="drugbuyingprice" property="drugbuyingprice" jdbcType="DOUBLE"></result>
+            <result column="drugsellingprice" property="drugsellingprice" jdbcType="DOUBLE"></result>
+        </association>
+
+    </resultMap>
+
+    <insert id="cordadd" parameterType="com.guigu.drug.tanlong.pojo.Drugrecord">
+
+      insert into drugrecord(drugid,supplierid,userid,rquantity,rprice,rdate,rstatus) values (#{drugid},#{supplierid},#{userid},#{rquantity},#{rprice},#{rdate},#{rstatus});
+
+    </insert>
+
+    <select id="cordsel" resultMap="drugrecordMap" parameterType="com.guigu.drug.tanlong.pojo.Drugrecord">
+
+        select d.rdid,d.drugid,d.supplierid,d.rquantity,i.drugbarcode,i.drugname,i.drugsellingprice,i.drugstock,d.rprice,d.rdate,f.suppliercontacts from drugrecord d INNER JOIN druginfo i INNER JOIN supplierinfo f on d.drugid=i.drugid and d.supplierid=f.supplierid where d.rstatus=#{rstatus}
+
+    </select>
+
+    <update id="cordupd" parameterType="com.guigu.drug.tanlong.pojo.Drugrecord">
+
+        update drugrecord set rstatus='已退货' where rdid=#{rdid}
+
+    </update>
+
+    <select id="cordselid" parameterType="com.guigu.drug.tanlong.pojo.Drugrecord" resultType="com.guigu.drug.tanlong.pojo.Drugrecord">
+
+        select * from drugrecord where rdid=#{rdid}
+
+    </select>
+
+</mapper>

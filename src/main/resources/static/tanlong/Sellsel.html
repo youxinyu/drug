@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>药品销售</title>
+</head>
+<script src="http://static.tctip.com/tctip-1.0.0.min.js"></script>
+<link  type="text/css" rel="stylesheet" href="https://files.cnblogs.com/files/hafiz/feedback.css">
+<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="css2/xcConfirm.css"/>
+<script src="js1/jquery-1.9.1.js" type="text/javascript" charset="utf-8"></script>
+<script src="js1/xcConfirm.js" type="text/javascript" charset="utf-8"></script>
+<link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://cdn.staticfile.org/popper.js/1.12.5/umd/popper.min.js"></script>
+<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="js/bootstrap-paginator.js"></script>
+
+
+<style type="text/css">
+    th{
+        text-align:center;/** 设置水平方向居中 */
+        vertical-align:middle/** 设置垂直方向居中 */
+    }
+</style>
+
+<body onload="cha()">
+    <div class="container-fluid bg-light">
+    <div class="row navbar navbar-expand-sm"style="background-color: #F3F3F3;border: 1px solid #E4E4E4 ;">
+        <a class="navbar-brand text-muted" href="#">
+            <div><img  src="img/药品.png" />&nbsp;药品销售</div>
+        </a>
+    </div>
+<br><br>
+<div class="row navbar navbar-expand-sm"style="background-color: #F3F3F3;border: 1px solid #E4E4E4 ;">
+    <a class="navbar-brand text-muted" href="#">
+        <div><img src="img/药品 (1).png" />&nbsp;药品库存数据</div>
+    </a>
+</div>
+        <br><br>
+<div class="row navbar-expand-sm">
+    <table class="table table-striped table-bordered" id="tbs">
+
+    </table>
+</div>
+
+        <div class="container">
+            <div class="modal" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLable" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">×</span>
+                            </button>
+                            <h5 class="modal-title" id="myModallabel">药品销售</h5>
+                        </div>
+                        <div align="center" class="modal-body">
+                            <br>
+                            <select id="clienid" class="form-control" style="height: 40px;">
+
+                            </select><br><br>
+                            <input id="count" class="form-control" placeholder="销售数量">
+                            <br><br>
+                            <input id="dprice" class="form-control" readonly  unselectable="on"  placeholder="药品售货价">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" onclick="CgGo()"  class="btn btn-success">确定销售</button>
+                            <button type="button" onclick="guanbi()" class="btn btn-default" >关闭</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+<div class="row navbar-expand-sm">
+    <div class="col-xl-12">
+        <a href="">共<strong id="cont"></strong>页，当前第<strong id="before"></strong>页</a>
+        <ul class="pagination pagination-lg" style="float:right;">
+            <li title="第一页" >
+                <a href="#">第一页</a>
+            </li>
+            <li title="上一页" >
+                <a href="#">上一页</a>
+            </li>
+            <li title="下一页" >
+                <a href="#">下一页</a>
+            </li>
+            <li title="最末页" >
+                <a href="#">最末页</a>
+            </li>
+        </ul>
+    </div>
+</div>
+    </div>
+</body>
+
+<script>
+
+    (function(window, document, undefined) {
+        var hearts = [];
+        window.requestAnimationFrame = (function() {
+            return window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame ||
+                function(callback) {
+                    setTimeout(callback, 1000 / 60);
+                }
+        })();
+        init();
+        function init() {
+            css(".heart{width: 10px;height: 10px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);}.heart:after,.heart:before{content: '';width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: absolute;}.heart:after{top: -5px;}.heart:before{left: -5px;}");
+            attachEvent();
+            gameloop();
+        }
+        function gameloop() {
+            for (var i = 0; i < hearts.length; i++) {
+                if (hearts[i].alpha <= 0) {
+                    document.body.removeChild(hearts[i].el);
+                    hearts.splice(i, 1);
+                    continue;
+                }
+                hearts[i].y--;
+                hearts[i].scale += 0.004;
+                hearts[i].alpha -= 0.013;
+                hearts[i].el.style.cssText = "left:" + hearts[i].x + "px;top:" + hearts[i].y + "px;opacity:" + hearts[i].alpha + ";transform:scale(" + hearts[i].scale + "," + hearts[i].scale + ") rotate(45deg);background:" + hearts[i].color;
+            }
+            requestAnimationFrame(gameloop);
+        }
+        function attachEvent() {
+            var old = typeof window.onclick === "function" && window.onclick;
+            window.onclick = function(event) {
+                old && old();
+                createHeart(event);
+            }
+        }
+        function createHeart(event) {
+            var d = document.createElement("div");
+            d.className = "heart";
+            hearts.push({
+                el: d,
+                x: event.clientX - 5,
+                y: event.clientY - 5,
+                scale: 1,
+                alpha: 1,
+                color: randomColor()
+            });
+            document.body.appendChild(d);
+        }
+        function css(css) {
+            var style = document.createElement("style");
+            style.type = "text/css";
+            try {
+                style.appendChild(document.createTextNode(css));
+            } catch(ex) {
+                style.styleSheet.cssText = css;
+            }
+            document.getElementsByTagName('head')[0].appendChild(style);
+        }
+        function randomColor() {
+            return "rgb(" + (~~ (Math.random() * 255)) + "," + (~~ (Math.random() * 255)) + "," + (~~ (Math.random() * 255)) + ")";
+        }
+    })(window, document);
+
+    function cha(page){
+        page=page==null?1:page;
+        $.ajax({
+            url:"/tanlong/druginfosel2.do",
+            type:"post",
+            data:{
+                page:page,
+                rows:1
+            },
+            success:function(data){
+                $("#tbs").html("<tr>" +
+                    "        <th>药品条形码</th>" +
+                    "        <th>药品名称</th>" +
+                    "        <th>药品简称</th>" +
+                    "        <th>药品规格</th>" +
+                    "        <th>药品单位</th>" +
+                    "        <th>药品产地</th>" +
+                    "        <th>药品批准文号</th>" +
+                    "        <th>药品进货价</th>" +
+                    "        <th>药品售货价</th>" +
+                    "        <th>保质期</th>" +
+                    "        <th>生产日期</th>" +
+                    "        <th>药品数量</th>" +
+                    "        <th>操作</th>" +
+                    "        </tr>");
+                for(var i=0;i<data.rows.length;i++){
+                    var tr="<tr align='center'>"+
+                        "<td>"+data.rows[i].drugbarcode+"</td>"+
+                        "<td>"+data.rows[i].drugname+"</td>"+
+                        "<td>"+data.rows[i].drugabbreviation+"</td>"+
+                        "<td>"+data.rows[i].drugspecification+"</td>"+
+                        "<td>"+data.rows[i].drugunit+"</td>"+
+                        "<td>"+data.rows[i].drugproduceaddress+"</td>"+
+                        "<td>"+data.rows[i].drugapprovalnumber+"</td>"+
+                        "<td>"+data.rows[i].drugbuyingprice+"</td>"+
+                        "<td>"+data.rows[i].drugsellingprice+"</td>"+
+                        "<td>"+data.rows[i].drugbaozhiqi+"</td>"+
+                        "<td>"+data.rows[i].drugproductdate+"</td>"+
+                        "<td>"+data.rows[i].drugstock+"</td>"+
+                        "<td>"+
+                        "<button class='btn btn-primary' onclick='drugupdate("+data.rows[i].drugid+','+data.rows[i].drugstock+','+data.rows[i].drugsellingprice+")'>销售</button>"+
+                        "</td>"+
+                        "</tr>";
+
+                    $("#tbs").append(tr);
+                }
+                $("#cont").empty();
+                $("#before").empty();
+                $("#cont").append(data.total);
+                $("#before").append(page);
+
+                $(".pagination").bootstrapPaginator({
+                    bootstrapMajorVersion:3,
+                    currentPage:page,
+                    numberOfPages:3,
+                    totalPages:data.total,
+                    size:"small",
+                    alignment:"center",
+                    onPageClicked:function(event,originalEvent,type,page){
+                        cha(page);
+                    }
+                });
+
+
+            }
+        })
+
+    }
+    var ids;
+    var stock;
+    var prices;
+    function drugupdate(id,st,price) {
+
+        $("#count").val("");
+        $("#clienid").html("");
+        ids=id;
+        stock=st;
+        prices=price;
+        $("#dprice").val(price);
+
+        $.ajax({
+            url: "/tanlong/clientlist.do",
+            type: "post",
+            success: function (data) {
+                for (var i=0;i<data.length;i++){
+                    $("#clienid").append("<option value="+data[i].clientid+">"+data[i].clientname+"</option>");
+                }
+            }
+        });
+        $('#myModal').modal("show");
+    }
+
+    function CgGo() {
+       var count =  $("#count").val();
+
+        $.ajax({
+            url: "/tanlong/druginfosels.do",
+            type: "post",
+            data:{
+                id:ids
+            },
+            success: function (data) {
+                if(count.length==0){
+                    window.wxc.xcConfirm("<h2><img src='img/警告.png' />销售数量不可为空</h2>", window.wxc.xcConfirm.typeEnum.warning);
+                }else if(parseInt(data.drugstock)>=count){
+                    $.ajax({
+                        url: "/tanlong/selladd.do",
+                        type: "post",
+                        data: {
+                            id: ids,
+                            count:count,
+                            cid:$("#clienid").val(),
+                            stocks:stock,
+                            prices:prices
+                        },
+                        success: function (data) {
+                            if(data>0){
+                                $('#myModal').modal("hide");
+                                window.wxc.xcConfirm("<h2><img src='img/成功.png' />销售成功</h2>",window.wxc.xcConfirm.typeEnum.success);
+                                $("#tbs").empty();
+                                cha();
+                            }else{
+                                window.wxc.xcConfirm("<h2><img src='img/错误.png' />销售失败</h2>",window.wxc.xcConfirm.typeEnum.error);
+                            }
+                        }
+                    })
+                }else{
+                    window.wxc.xcConfirm("<h3><img src='img/警告.png' />销售数量不能大于库存</h3>", window.wxc.xcConfirm.typeEnum.warning);
+                }
+            }
+        });
+
+    }
+
+    function guanbi() {
+        $("#count").val("");
+        $('#myModal').modal("hide");
+    }
+
+</script>
+
+</html>
