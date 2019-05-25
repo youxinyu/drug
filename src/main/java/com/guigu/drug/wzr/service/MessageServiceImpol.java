@@ -19,6 +19,11 @@ public class MessageServiceImpol implements MessageService {
     }
 
     @Override
+    public List<Drugrecord> drugrecordselect(DrugrecordVo vo) {
+        return mapper.drugrecordselect(vo);
+    }
+
+    @Override
     public List<Druginfo> drugselectwzr(DrugwzrVo vo) {
         List<Druginfo> drugselectwzr = mapper.drugselectwzr(vo);
         return drugselectwzr;

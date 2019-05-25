@@ -1,21 +1,23 @@
 package com.guigu.drug.wzr.domain;
-
+/*
+* 供应商类
+* */
 public class Supplierinfo {
 
-    private int supplierid;
-    private String suppliername;
-    private String supplierpinyin;
-    private String supplierabbreviation;
-    private String suppliercontacts;
-    private String supplieraddress;
-    private String supplieryoubian;
-    private String supplierphone;
-    private String supplierfax;
-    private String supplieropenbank;
-    private String suppliercardno;
-    private String supplierstoreroom;
-    private String supplierstoreroomphone;
-    private int suppliersalesman;
+    private int supplierid;//供应商编号
+    private String suppliername;//供应商名称
+    private String supplierpinyin;//供应商拼音码
+    private String supplierabbreviation;//供应商简称
+    private String suppliercontacts;//供应商联系人
+    private String supplieraddress;//供应商地址
+    private String supplieryoubian;//供应商邮编
+    private String supplierphone;//供应商电话
+    private String supplierfax;//供应商传真
+    private String supplieropenbank;//供应商开户行
+    private String suppliercardno;//供应商银行号
+    private String supplierstoreroom;//供应商库房地址
+    private String supplierstoreroomphone;//供应商库房电话
+    private int suppliersalesman;//供应商业务员编号
 
     private Userinfo user;
 

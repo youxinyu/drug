@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>客户信息查询</title>
+    <title>采购入库查询</title>
     <link rel="stylesheet" href="css/bootstrap.min.css"/>
     <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/css/bootstrap.min.css">
     <script type="text/javascript" src="js/jquery-3.3.1.js"></script>
@@ -15,18 +15,21 @@
         text-align: center;
         height: 30px;
     }
-    td{
+
+    td {
         text-align: center;
-        max-width:80px;
-        word-wrap:break-word;
-        text-overflow:ellipsis;
-        white-space:nowrap;
-        overflow:hidden;
+        max-width: 80px;
+        word-wrap: break-word;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
     }
-    td:hover{
-        white-space:normal;
-        overflow:auto;
+
+    td:hover {
+        white-space: normal;
+        overflow: auto;
     }
+
     input{
         text-align:center;/** 设置水平方向居中 */
         vertical-align:middle/** 设置垂直方向居中 */
@@ -35,14 +38,15 @@
 <body>
 <div class="container">
     <br><br>
-    <div align="center">
+    <div>
         <div class="form-inline">
-            <input id="ke1" type="text" class="form-control" style="width: 160px;" placeholder="请输入客户名称">&nbsp;&nbsp;&nbsp;&nbsp;
-            <input id="ke2" type="text" class="form-control" style="width: 160px;" placeholder="请输入客户地址">&nbsp;&nbsp;&nbsp;&nbsp;
-            <input id="ke3" type="text" class="form-control" style="width: 160px;" placeholder="请输入客户拼音编码">&nbsp;&nbsp;&nbsp;&nbsp;
-            <input id="ke4" type="text" class="form-control" style="width: 160px;" placeholder="请输入客户电话">&nbsp;&nbsp;&nbsp;&nbsp;
-            <input id="ke5" type="text" class="form-control" style="width: 160px;" placeholder="请输入做鸡号">&nbsp;&nbsp;&nbsp;&nbsp;
-            <input type="button" class="btn btn-primary" onclick="fenyechaxun(1)" style="width: 80px;height: 36px;" value="查询">
+            <input id="ke1" type="text" class="form-control" style="width: 160px;" placeholder="请输入供应商名称">&nbsp;&nbsp;&nbsp;&nbsp;
+            <input id="ke2" type="text" class="form-control" style="width: 160px;" placeholder="请输入药品名称">&nbsp;&nbsp;&nbsp;&nbsp;
+            <input id="ke3" type="text" class="form-control" style="width: 160px;" placeholder="请输入药品编号">&nbsp;&nbsp;&nbsp;&nbsp;
+            <input id="ke4" type="text" class="form-control" style="width: 160px;" placeholder="请输入采购单号">&nbsp;&nbsp;&nbsp;&nbsp;
+            <input id="ke5" type="text" class="form-control" style="width: 160px;" placeholder="请输入药品产地">&nbsp;&nbsp;&nbsp;&nbsp;
+            <input type="button" class="btn btn-primary" onclick="fenyechaxun(1)" style="width: 80px;height: 36px;"
+                   value="查询">
         </div>
         <br><br>
         <table id='gongyingshangwzr' border="1" class="table table-striped table-bordered">
@@ -58,6 +62,7 @@
     $(function () {
         fenyechaxun(1);
     });
+
     /*多条件分页查询*/
     function fenyechaxun(pagee) {
         var ke1 = $("#ke1").val();
@@ -65,30 +70,32 @@
         var ke3 = $("#ke3").val();
         var ke4 = $("#ke4").val();
         var ke5 = $("#ke5").val();
-
         $.ajax({
-            url: "clientselect",
+            url: "drugrecordselect",
             data: {
                 page: pagee,
                 name: ke1,
-                uname:ke3,
-                dizhi:ke2,
-                chuanzhen: ke5,
-                phone:ke4
+                uname: ke2,
+                rdid: ke3,
+                caigouid: ke4,
+                chandi: ke5
             },
             success: function (da) {
                 $("#gongyingshangwzr").empty();
                 if (da.total == 0) {
-                    $("#gongyingshangwzr").append("<tr><td>亲，暂未搜索到我们的客户鸭！！</td></tr>");
+                    $("#gongyingshangwzr").append("<tr><td>亲，暂未搜索到系统的入库记录鸭！！请等待程序猿维修！！</td></tr>");
                 } else {
-                    $("#gongyingshangwzr").append("<tr><th>编号</th><th>客户姓名</th><th>简称</th><th>客户地址</th><th>开户银行</th><th>银行账号</th><th>拼音编码</th><th>联系人</th><th>邮政编码</th><th>电话</th><th>做鸡</th><th>业务员</th></tr>");
+                    $("#gongyingshangwzr").append("<tr><th>采购单号</th><th>药品编号</th><th>药品名称</th><th>药品类别</th><th>供应商名称</th>" +
+                        "<th>采购日期</th><th>产地</th><th>数量</th><th>单价</th><th>规格</th><th>交易总额</th></tr>");
                     for (i = 0; i < da.rows.length; i++) {
-                        $("#gongyingshangwzr").append("<tr><td>"+da.rows[i].clientid +"</td><td>" + da.rows[i].clientname + "</td><td>" + da.rows[i].clientabbreviation + "</td><td>"+da.rows[i].clientaddress+"</td><td>" + da.rows[i].clientopenbank + "</td><td>" + da.rows[i].clientcardno + "</td><td>" + da.rows[i].clientpinyin + "</td><td>" + da.rows[i].clientcontacts + "</td>" +
-                            "<td>" + da.rows[i].clientyoubian+ "</td><td>" + da.rows[i].clientphone +"</td><td>" + da.rows[i].clientfax +"</td><td>" + da.rows[i].user.username +"</td></tr>");
+                        $("#gongyingshangwzr").append("<tr><td>" + da.rows[i].rdid + "</td><td>" + da.rows[i].d.drugid + "</td>" +
+                            "<td>" + da.rows[i].d.drugname + "</td><td>" + da.rows[i].g.typedrug + "</td>" +
+                            "<td>" + da.rows[i].s.suppliername + "</td><td>" + da.rows[i].rdate + "</td>" +
+                            "<td>" + da.rows[i].d.drugproduceaddress + "</td><td>" + da.rows[i].rquantity + "</td>" +
+                            "<td>" + da.rows[i].d.drugsellingprice + "</td><td>" + da.rows[i].d.drugspecification + "</td><td>" + da.rows[i].rprice + "</td></tr>");
                     }
-
                     $(".pagination").bootstrapPaginator({
-                        bootstrapMajorVersion:1,    //版本
+                        bootstrapMajorVersion: 1,    //版本
                         currentPage: pagee,    //当前页数
                         numberOfPages: 5,    //最多显示Page页
                         totalPages: da.total,    //所有数据可以显示的页数

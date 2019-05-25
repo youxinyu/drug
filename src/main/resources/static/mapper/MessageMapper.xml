@@ -38,6 +38,7 @@
                     and d.drugproductdate between #{date1} and #{date2}
                 </if>
             </where>
+             order by d.drugproductdate desc
     </select>
 
     <select id="typedrugall" resultType="com.guigu.drug.wzr.domain.Styledrug">
@@ -122,4 +123,47 @@
         </where>
     </select>
 
+
+    <resultMap id="drugrecordMap" type="com.guigu.drug.wzr.domain.Drugrecord">
+            <id column="rdid" property="rdid" jdbcType="INTEGER"></id>
+            <result column="rdate" property="rdate" jdbcType="VARCHAR"></result>
+            <result column="rquantity" property="rquantity" jdbcType="VARCHAR"></result>
+            <result column="rprice" property="rprice" jdbcType="DOUBLE"></result>
+            <collection property="d" javaType="com.guigu.drug.wzr.domain.Druginfo">
+                <id column="drugid" property="drugid" jdbcType="INTEGER"></id>
+                <result column="drugname" property="drugname" jdbcType="VARCHAR"></result>
+                <result column="drugsellingprice" property="drugsellingprice" jdbcType="DOUBLE"></result>
+                <result column="drugproduceaddress" property="drugproduceaddress" jdbcType="VARCHAR"></result>
+                <result column="drugspecification" property="drugspecification" jdbcType="VARCHAR"></result>
+            </collection>
+            <collection property="s" javaType="com.guigu.drug.wzr.domain.Supplierinfo">
+                <result column="suppliername" property="suppliername" jdbcType="VARCHAR"></result>
+            </collection>
+            <collection property="g" javaType="com.guigu.drug.wzr.domain.Styledrug">
+                <result column="typedrug" property="typedrug" jdbcType="VARCHAR"></result>
+            </collection>
+    </resultMap>
+    <select id="drugrecordselect" parameterType="com.guigu.drug.wzr.domain.DrugrecordVo" resultMap="drugrecordMap">
+        select d.rdid,o.drugid,o.drugname,g.typedrug,s.suppliername,d.rdate,o.drugproduceaddress,d.rquantity,
+               o.drugsellingprice,o.drugspecification,d.rprice from drugrecord d INNER JOIN druginfo o INNER JOIN supplierinfo s
+            INNER JOIN styledrug g on d.drugid=o.drugid and d.supplierid=s.supplierid and o.typeid=g.typeid
+        <where>
+            <if test="s.suppliername!=null and s.suppliername!=''">
+                s.suppliername like "%"#{s.suppliername}"%"
+            </if>
+            <if test="d.drugname!=null and d.drugname!=''">
+                o.drugname like "%"#{d.drugname}"%"
+            </if>
+            <if test="d.drugid!=null and d.drugid!=''">
+                o.drugid like "%"#{d.drugid}"%"
+            </if>
+            <if test="dd.rdid!=null and dd.rdid!=''">
+                d.rdid like "%"#{dd.rdid}"%"
+            </if>
+            <if test="d.drugproduceaddress!=null and d.drugproduceaddress!=''">
+                o.drugproduceaddress like "%"#{d.drugproduceaddress}"%"
+            </if>
+        </where>
+        order by d.rdate desc
+    </select>
 </mapper>

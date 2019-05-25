@@ -1,16 +1,18 @@
 package com.guigu.drug.wzr.domain;
-
+/*
+* 用户类
+* */
 public class Userinfo {
 
-    private int userid;
-    private String username;
-    private String account;
-    private String password;
-    private String sex;
-    private int age;
-    private String phone;
-    private int did;
-    private String workstate;
+    private int userid;//用户编号
+    private String username;//用户名称
+    private String account;//用户拼音编码
+    private String password;//用户密码
+    private String sex;//用户性别
+    private int age;//用户年龄
+    private String phone;//用户电话
+    private int did;//模块编号
+    private String workstate;//用户状态
 
     private Supplierinfo su;
 

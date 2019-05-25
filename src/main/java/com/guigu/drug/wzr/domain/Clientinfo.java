@@ -1,19 +1,21 @@
 package com.guigu.drug.wzr.domain;
-
+/*
+*客户基本信息类
+* */
 public class Clientinfo {
 
-    private int clientid;
-    private String clientname;
-    private String clientpinyin;
-    private String clientabbreviation;
-    private String clientcontacts;
-    private String clientaddress;
-    private String clientyoubian;
-    private String clientphone;
-    private String clientfax;
-    private String clientopenbank;
-    private String clientcardno;
-    private String clientsalesman;
+    private int clientid;//客户编号
+    private String clientname;//客户名称
+    private String clientpinyin;//客户拼音编码
+    private String clientabbreviation;//客户简称
+    private String clientcontacts;//客户联系人
+    private String clientaddress;//客户地址
+    private String clientyoubian;//客户邮编
+    private String clientphone;//客户电话
+    private String clientfax;//客户传真
+    private String clientopenbank;//客户开户行
+    private String clientcardno;//客户银行号
+    private String clientsalesman;//业务员
 
     private Userinfo user;
 

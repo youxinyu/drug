@@ -1,10 +1,13 @@
 package com.guigu.drug.wzr.domain;
 
+/*
+* 药品类型类
+* */
 public class Styledrug {
-    private int typeid;
-    private String typeidd;
-    private String typedrug;
-    private Druginfo druginfo;
+    private int typeid;//药品编号
+    private String typeidd;//药品编号：客户端传值
+    private String typedrug;///药品类型
+    private Druginfo druginfo;//药品类
 
     public Styledrug(int typeid, String typeidd, String typedrug, Druginfo druginfo) {
         this.typeid = typeid;

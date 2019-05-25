@@ -30,15 +30,8 @@ public class MessageController {
         PageHelper.startPage(page,5);
         List<Druginfo> drugselectwzr = m.drugselectwzr(new DrugwzrVo(druginfo,styledrug,date1,date2));
         PageInfo <Druginfo> info = new PageInfo<>(drugselectwzr);
-        int drugcount = (int) info.getTotal();
-        int num = 0;
-        if(drugcount%5==0){
-            num=drugcount/5;
-        }else{
-            num=drugcount/5+1;
-        }
         map.put("rows",drugselectwzr);
-        map.put("total",num);
+        map.put("total",info.getLastPage());
         return map;
     }
 
@@ -61,16 +54,9 @@ public class MessageController {
         PageHelper.startPage(page,5);
         List<Supplierinfo> supplierselect = m.supplierselect(new SupplierVo(info));
         PageInfo <Supplierinfo> pa = new PageInfo<>(supplierselect);
-        int total = (int)pa.getTotal();
-        int num = 0;
-        if(total%5==0){
-            num=total/5;
-        }else{
-            num=total/5+1;
-        }
         Map map = new HashMap();
         map.put("rows",supplierselect);
-        map.put("total",num);
+        map.put("total",pa.getLastPage());
         return map;
     }
 
@@ -86,16 +72,30 @@ public class MessageController {
         PageHelper.startPage(page,5);
         List<Clientinfo> clientselect = m.clientselect(info);
         PageInfo <Clientinfo> pa = new PageInfo<>(clientselect);
-        int total = (int)pa.getTotal();
-        int num = 0;
-        if(total%5==0){
-            num=total/5;
-        }else{
-            num=total/5+1;
-        }
         Map map = new HashMap();
         map.put("rows",clientselect);
-        map.put("total",num);
+        map.put("total",pa.getLastPage());
+        return map;
+    }
+
+    //采购入库查询
+    @RequestMapping("drugrecordselect")
+    public Map drugrecordselect(int page,String name,String uname,Integer rdid,Integer caigouid,String chandi){
+        System.out.println(rdid);
+        Map map = new HashMap();
+        Supplierinfo su = new Supplierinfo();
+        su.setSuppliername(name);
+        Druginfo drug = new Druginfo();
+        drug.setDrugname(uname);
+        drug.setDrugid(rdid);
+        drug.setDrugproduceaddress(chandi);
+        Drugrecord drugrecord = new Drugrecord();
+        drugrecord.setRdid(caigouid);
+        PageHelper.startPage(page,5);
+        List<Drugrecord> drugrecordselect = m.drugrecordselect(new DrugrecordVo(drugrecord, su, drug));
+        PageInfo <Drugrecord> pa = new PageInfo<>(drugrecordselect);
+        map.put("rows",drugrecordselect);
+        map.put("total",pa.getLastPage());
         return map;
     }
 }

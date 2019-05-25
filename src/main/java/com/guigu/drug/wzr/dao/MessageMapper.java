@@ -19,4 +19,7 @@ public interface MessageMapper {
     //客户信息查询
     List<Clientinfo> clientselect(Clientinfo info);
 
+    //采购入库信息查询
+    List<Drugrecord> drugrecordselect(DrugrecordVo vo);
+
 }

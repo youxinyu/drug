@@ -1,31 +1,31 @@
 package com.guigu.drug.wzr.domain;
 
 /*
-* 药品信息查询
+* 药品信息类
 * */
 public class Druginfo {
-    private int drugid;
-    private String drugbarcode;
-    private String drugname;
-    private String drugabbreviation;
-    private String drugspecification;
-    private String drugunit;
-    private String drugproduceaddress;
-    private String drugapprovalnumber;
-    private String drugproductdate;
-    private String drugbaozhiqi;
-    private int typeid;
-    private int drugstock;
-    private double drugbuyingprice;
-    private double drugsellingprice;
+    private Integer drugid;//药品编号
+    private String drugbarcode;//药品条形码
+    private String drugname;//药品名称
+    private String drugabbreviation;//药品简称
+    private String drugspecification;//药品规格
+    private String drugunit;//药品单位
+    private String drugproduceaddress;//药品产地
+    private String drugapprovalnumber;//药品批准文号
+    private String drugproductdate;//药品生产日期
+    private String drugbaozhiqi;//药品保质期
+    private int typeid;//药品类别编号
+    private int drugstock;//药品库存
+    private double drugbuyingprice;//药品进货价
+    private double drugsellingprice;//药品售货价
 
-    private Styledrug s;
+    private Styledrug s;//类部类：药品类型类
 
-    public int getDrugid() {
+    public Integer getDrugid() {
         return drugid;
     }
 
-    public void setDrugid(int drugid) {
+    public void setDrugid(Integer drugid) {
         this.drugid = drugid;
     }
 
@@ -141,7 +141,7 @@ public class Druginfo {
         this.s = s;
     }
 
-    public Druginfo(int drugid, String drugbarcode, String drugname, String drugabbreviation, String drugspecification, String drugunit, String drugproduceaddress, String drugapprovalnumber, String drugproductdate, String drugbaozhiqi, int typeid, int drugstock, double drugbuyingprice, double drugsellingprice, Styledrug s) {
+    public Druginfo(Integer drugid, String drugbarcode, String drugname, String drugabbreviation, String drugspecification, String drugunit, String drugproduceaddress, String drugapprovalnumber, String drugproductdate, String drugbaozhiqi, int typeid, int drugstock, double drugbuyingprice, double drugsellingprice, Styledrug s) {
         this.drugid = drugid;
         this.drugbarcode = drugbarcode;
         this.drugname = drugname;

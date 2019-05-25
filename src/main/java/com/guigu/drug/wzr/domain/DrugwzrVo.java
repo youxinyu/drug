@@ -1,12 +1,14 @@
 package com.guigu.drug.wzr.domain;
 
 import javax.swing.text.Style;
-
+/*
+* 药品信息持久对象（VO）
+* */
 public class DrugwzrVo {
-    private Druginfo i;
-    private Styledrug s;
-    private String date1;
-    private String date2;
+    private Druginfo i;//药品类
+    private Styledrug s;//药品类别类
+    private String date1;//起始时间
+    private String date2;//结束时间
 
     public DrugwzrVo(Druginfo i, Styledrug s, String date1, String date2) {
         this.i = i;
