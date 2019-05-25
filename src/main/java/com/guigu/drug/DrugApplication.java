@@ -12,5 +12,4 @@ public class DrugApplication {
         SpringApplication.run(DrugApplication.class, args);
     }
 
-
 }
