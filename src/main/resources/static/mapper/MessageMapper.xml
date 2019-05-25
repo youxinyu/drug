@@ -1,5 +1,169 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.guigu.drug.wzr.dao.MessageMapper" >
-    
+
+    <resultMap id="styledrugMap" type="com.guigu.drug.wzr.domain.Druginfo">
+        <id column="drugid" property="drugid" jdbcType="INTEGER"></id>
+        <result column="drugbarcode" property="drugbarcode" jdbcType="VARCHAR"></result>
+        <result column="drugname" property="drugname" jdbcType="VARCHAR"></result>
+        <result column="drugabbreviation" property="drugabbreviation" jdbcType="VARCHAR"></result>
+        <result column="drugspecification" property="drugspecification" jdbcType="VARCHAR"></result>
+        <result column="drugunit" property="drugunit" jdbcType="VARCHAR"></result>
+        <result column="drugproduceaddress" property="drugproduceaddress" jdbcType="VARCHAR"></result>
+        <result column="drugapprovalnumber" property="drugapprovalnumber" jdbcType="VARCHAR"></result>
+        <result column="drugproductdate" property="drugproductdate" jdbcType="VARCHAR"></result>
+        <result column="drugbaozhiqi" property="drugbaozhiqi" jdbcType="INTEGER"></result>
+        <result column="drugstock" property="drugstock" jdbcType="INTEGER"></result>
+        <result column="drugbuyingprice" property="drugbuyingprice" jdbcType="DOUBLE"></result>
+        <result column="drugsellingprice" property="drugsellingprice" jdbcType="DOUBLE"></result>
+        <collection property="s" javaType="com.guigu.drug.wzr.domain.Styledrug">
+            <result column="typedrug" property="typedrug" jdbcType="VARCHAR"></result>
+        </collection>
+    </resultMap>
+    <select id="drugselectwzr" parameterType="com.guigu.drug.wzr.domain.DrugwzrVo" resultMap="styledrugMap">
+          select d.drugid,d.drugbarcode,d.drugname,d.drugabbreviation,d.drugapprovalnumber,d.drugbaozhiqi
+        ,d.drugbuyingprice,d.drugproduceaddress,d.drugproductdate,d.drugsellingprice,d.drugspecification,
+        d.drugstock,d.drugunit,s.typedrug from druginfo d inner join styledrug s on d.typeid=s.typeid
+            <where>
+                <if test="i.drugbarcode!=null and i.drugbarcode!=''">
+                    d.drugbarcode like "%"#{i.drugbarcode}"%"
+                </if>
+                <if test="i.drugname!=null and i.drugname!=''">
+                    and d.drugname like "%"#{i.drugname}"%"
+                </if>
+                <if test="s.typeidd!=null and s.typeidd!=''">
+                    and d.typeid=#{s.typeidd}
+                </if>
+                <if test="date1!=null and date1!='' and date2!=null and date2!=''">
+                    and d.drugproductdate between #{date1} and #{date2}
+                </if>
+            </where>
+             order by d.drugproductdate desc
+    </select>
+
+    <select id="typedrugall" resultType="com.guigu.drug.wzr.domain.Styledrug">
+        select * from styledrug
+    </select>
+
+    <resultMap id="supplierMap" type="com.guigu.drug.wzr.domain.Supplierinfo">
+        <id column="supplierid" property="supplierid" jdbcType="INTEGER"></id>
+        <result column="suppliername" property="suppliername" jdbcType="VARCHAR"></result>
+        <result column="supplierpinyin" property="supplierpinyin" jdbcType="VARCHAR"></result>
+        <result column="supplierabbreviation" property="supplierabbreviation" jdbcType="VARCHAR"></result>
+        <result column="suppliercontacts" property="suppliercontacts" jdbcType="VARCHAR"></result>
+        <result column="supplieraddress" property="supplieraddress" jdbcType="VARCHAR"></result>
+        <result column="supplieryoubian" property="supplieryoubian" jdbcType="VARCHAR"></result>
+        <result column="supplierphone" property="supplierphone" jdbcType="VARCHAR"></result>
+        <result column="supplierfax" property="supplierfax" jdbcType="VARCHAR"></result>
+        <result column="supplieropenbank" property="supplieropenbank" jdbcType="VARCHAR"></result>
+        <result column="suppliercardno" property="suppliercardno" jdbcType="VARCHAR"></result>
+        <result column="supplierstoreroom" property="supplierstoreroom" jdbcType="VARCHAR"></result>
+        <result column="supplierstoreroomphone" property="supplierstoreroomphone" jdbcType="VARCHAR"></result>
+        <result column="suppliersalesman" property="suppliersalesman" jdbcType="INTEGER"></result>
+        <collection property="user" javaType="com.guigu.drug.wzr.domain.Userinfo">
+                <result column="username" property="username" jdbcType="VARCHAR"></result>
+        </collection>
+    </resultMap>
+    <select id="supplierselect" parameterType="com.guigu.drug.wzr.domain.SupplierVo" resultMap="supplierMap">
+        select s.*,u.username from supplierinfo s INNER JOIN userinfo u on s.suppliersalesman=u.userid
+            <where>
+                <if test="s.suppliername!=null and s.suppliername!=''">
+                    s.suppliername like "%"#{s.suppliername}"%"
+                </if>
+                <if test="s.supplieraddress!=null and s.supplieraddress!=''">
+                    and s.supplieraddress like "%"#{s.supplieraddress}"%"
+                </if>
+                <if test="s.supplierpinyin!=null and s.supplierpinyin!=''">
+                    and s.supplierpinyin like "%"#{s.supplierpinyin}"%"
+                </if>
+                <if test="s.supplierphone!=null and s.supplierphone!=''">
+                    and s.supplierphone like "%"#{s.supplierphone}"%"
+                </if>
+                <if test="s.supplierfax!=null and s.supplierfax!=''">
+                    and s.supplierfax like "%"#{s.supplierfax}"%"
+                </if>
+            </where>
+    </select>
+
+    <resultMap id="clientMap" type="com.guigu.drug.wzr.domain.Clientinfo">
+        <id column="clientid" property="clientid" jdbcType="INTEGER"></id>
+        <result column="clientname" property="clientname" jdbcType="VARCHAR"></result>
+        <result column="clientpinyin" property="clientpinyin" jdbcType="VARCHAR"></result>
+        <result column="clientabbreviation" property="clientabbreviation" jdbcType="VARCHAR"></result>
+        <result column="clientcontacts" property="clientcontacts" jdbcType="VARCHAR"></result>
+        <result column="clientaddress" property="clientaddress" jdbcType="VARCHAR"></result>
+        <result column="clientyoubian" property="clientyoubian" jdbcType="VARCHAR"></result>
+        <result column="clientphone" property="clientphone" jdbcType="VARCHAR"></result>
+        <result column="clientfax" property="clientfax" jdbcType="VARCHAR"></result>
+        <result column="clientopenbank" property="clientopenbank" jdbcType="VARCHAR"></result>
+        <result column="clientcardno" property="clientcardno" jdbcType="VARCHAR"></result>
+        <result column="clientsalesman" property="clientsalesman" jdbcType="INTEGER"></result>
+        <collection property="user" javaType="com.guigu.drug.wzr.domain.Userinfo">
+            <result column="username" property="username" jdbcType="VARCHAR"></result>
+        </collection>
+    </resultMap>
+    <select id="clientselect" parameterType="com.guigu.drug.wzr.domain.Clientinfo" resultMap="clientMap">
+        select c.*,u.username from clientinfo c INNER JOIN userinfo u on c.clientsalesman=u.userid
+        <where>
+            <if test="clientname!=null and clientname!=''">
+                c.clientname like "%"#{clientname}"%"
+            </if>
+            <if test="clientaddress!=null and clientaddress!=''">
+                and c.clientaddress like "%"#{clientaddress}"%"
+            </if>
+            <if test="clientpinyin!=null and clientpinyin!=''">
+                and c.clientpinyin like "%"#{clientpinyin}"%"
+            </if>
+            <if test="clientphone!=null and clientphone!=''">
+                and c.clientphone like "%"#{clientphone}"%"
+            </if>
+            <if test="clientfax!=null and clientfax!=''">
+                and c.clientfax like "%"#{clientfax}"%"
+            </if>
+        </where>
+    </select>
+
+
+    <resultMap id="drugrecordMap" type="com.guigu.drug.wzr.domain.Drugrecord">
+            <id column="rdid" property="rdid" jdbcType="INTEGER"></id>
+            <result column="rdate" property="rdate" jdbcType="VARCHAR"></result>
+            <result column="rquantity" property="rquantity" jdbcType="VARCHAR"></result>
+            <result column="rprice" property="rprice" jdbcType="DOUBLE"></result>
+            <collection property="d" javaType="com.guigu.drug.wzr.domain.Druginfo">
+                <id column="drugid" property="drugid" jdbcType="INTEGER"></id>
+                <result column="drugname" property="drugname" jdbcType="VARCHAR"></result>
+                <result column="drugsellingprice" property="drugsellingprice" jdbcType="DOUBLE"></result>
+                <result column="drugproduceaddress" property="drugproduceaddress" jdbcType="VARCHAR"></result>
+                <result column="drugspecification" property="drugspecification" jdbcType="VARCHAR"></result>
+            </collection>
+            <collection property="s" javaType="com.guigu.drug.wzr.domain.Supplierinfo">
+                <result column="suppliername" property="suppliername" jdbcType="VARCHAR"></result>
+            </collection>
+            <collection property="g" javaType="com.guigu.drug.wzr.domain.Styledrug">
+                <result column="typedrug" property="typedrug" jdbcType="VARCHAR"></result>
+            </collection>
+    </resultMap>
+    <select id="drugrecordselect" parameterType="com.guigu.drug.wzr.domain.DrugrecordVo" resultMap="drugrecordMap">
+        select d.rdid,o.drugid,o.drugname,g.typedrug,s.suppliername,d.rdate,o.drugproduceaddress,d.rquantity,
+               o.drugsellingprice,o.drugspecification,d.rprice from drugrecord d INNER JOIN druginfo o INNER JOIN supplierinfo s
+            INNER JOIN styledrug g on d.drugid=o.drugid and d.supplierid=s.supplierid and o.typeid=g.typeid
+        <where>
+            <if test="s.suppliername!=null and s.suppliername!=''">
+                s.suppliername like "%"#{s.suppliername}"%"
+            </if>
+            <if test="d.drugname!=null and d.drugname!=''">
+                o.drugname like "%"#{d.drugname}"%"
+            </if>
+            <if test="d.drugid!=null and d.drugid!=''">
+                o.drugid like "%"#{d.drugid}"%"
+            </if>
+            <if test="dd.rdid!=null and dd.rdid!=''">
+                d.rdid like "%"#{dd.rdid}"%"
+            </if>
+            <if test="d.drugproduceaddress!=null and d.drugproduceaddress!=''">
+                o.drugproduceaddress like "%"#{d.drugproduceaddress}"%"
+            </if>
+        </where>
+        order by d.rdate desc
+    </select>
 </mapper>
