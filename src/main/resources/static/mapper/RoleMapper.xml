@@ -1,7 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.guigu.drug.yxy.dao.RoleMapper" >
-    <select id="findrole" resultType="com.guigu.drug.yxy.domain.Role">
-        select * from role r,dept d where r.did=d.did
+    <select id="findrole" parameterType="com.guigu.drug.yxy.domain.Role" resultType="com.guigu.drug.yxy.domain.Role">
+        select r.*,d.dname from role r,dept d where r.did=d.did
+        <if test="rname!='' or rname!=null">
+            and rname like "%"#{rname}"%"
+        </if>
+        <if test="did!=0">
+            and d.did=#{did}
+        </if>
+    </select>
+    <select id="findrolebyrid" parameterType="int" resultType="com.guigu.drug.yxy.domain.Role">
+        select * from role where rid=#{rid}
+    </select>
+    <insert id="addrole" parameterType="com.guigu.drug.yxy.domain.Role">
+        insert into role(rname,`desc`,did) values (#{rname},#{desc},#{did})
+    </insert>
+    <update id="updaterole" parameterType="com.guigu.drug.yxy.domain.Role">
+        update role set rname=#{rname},role.`desc`=#{desc},did=#{did} where rid=#{rid}
+    </update>
+    <delete id="deleterole" parameterType="int">
+        delete from role where rid=#{rid}
+    </delete>
+    <select id="finduserinfobyrid" parameterType="int" resultType="com.guigu.drug.yxy.domain.Userinfo">
+        select * from userinfo where rid=#{rid};
     </select>
 </mapper>

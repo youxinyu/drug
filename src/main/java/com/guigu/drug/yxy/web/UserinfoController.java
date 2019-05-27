@@ -7,6 +7,9 @@ import com.guigu.drug.yxy.domain.Role;
 import com.guigu.drug.yxy.domain.Userinfo;
 import com.guigu.drug.yxy.service.UserinfoService;
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authc.LockedAccountException;
+import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.shiro.subject.Subject;
@@ -38,33 +41,30 @@ public class UserinfoController {
 
     @RequestMapping("/yxy/login.do")
     public int login(Userinfo user,HttpServletRequest request){
-        /*HttpSession session = request.getSession();
+        HttpSession session = request.getSession();
         Subject subject= SecurityUtils.getSubject();
+        Userinfo userinfo=null;
         if (!subject.isAuthenticated()){
-            UsernamePasswordToken token = new UsernamePasswordToken(user.getUsername(),user.getPassword());
+            ByteSource bytes=ByteSource.Util.bytes(user.getAccount());
+            Object obj=new SimpleHash("MD5",user.getPassword(), bytes, 1024);
+            UsernamePasswordToken token = new UsernamePasswordToken(user.getAccount(),obj.toString());
             try{
                 subject.login(token);
-                lo = service.finduserinfobyaccount(user);
-                session.setAttribute("staffinfo", lo);
-                return lo;
+                userinfo = service.finduserinfobyaccount(user);
+                session.setAttribute("userinfo", userinfo);
+                return 1;
+            } catch (UnknownAccountException e){
+                System.out.println("用户名不存在！");
+                return 3;
+            }catch (LockedAccountException e){
+                System.out.println("用户已离职！");
+                return 4;
             }catch(AuthenticationException e) {
-                e.printStackTrace();
-                return 0;
+                System.out.println("密码错误！");
+                return 2;
             }
-        }else {
-            Staff attribute = (Staff) session.getAttribute("staffinfo");
-            System.out.println(attribute);
-            return attribute;
-        }*/
-        Userinfo userinfo = service.finduserinfobyaccount(user);
-        ByteSource bytes=ByteSource.Util.bytes(user.getAccount());
-
-        int i=0;
-        if(userinfo!=null){
-            Object obj=new SimpleHash("MD5",userinfo.getPassword(), bytes, 1024);
-            i=userinfo.getPassword().equals(obj.toString())?1:0;
         }
-        return i;
+        return 0;
     }
 
     @RequestMapping("/yxy/finduserinfo.do")
