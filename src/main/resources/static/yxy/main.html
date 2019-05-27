@@ -6,10 +6,10 @@
 	</head>
 	<link rel="stylesheet" href="bootstrap1/bootstrap.min.css"/>
 	<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/css/bootstrap.min.css"/>
-	<link rel="stylesheet" href="../css/xcConfirm.css">
+	<link rel="stylesheet" href="bootstrap/xcConfirm.css">
 	<link href="./bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
 	<script src="js/jquery-3.3.1.js"></script>
-	<script src="../css/xcConfirm.js"></script>
+	<script src="bootstrap/xcConfirm.js"></script>
 	<script src="bootstrap1/js/bootstrap.min.js"></script>
 	<script src="bootstrap1/js/bootbox.min.js"></script>
 	<script type="text/javascript" src="bootstrap1/bootstrap-paginator.js"></script>
@@ -126,7 +126,7 @@
                 datatype: "json",
                 success: function (data) {
                     for (var i=0;i<data.length;i++){
-                        $("#panel-body"+index).append("<a href='javascript:skiphtml(\""+data[i].url+"\")'>"+data[i].text+"</a><br>");
+                        $("#panel-body"+index).append("<font ><a href='javascript:skiphtml(\""+data[i].url+"\")'>"+data[i].text+"</a></font><br>");
                     }
                 }
             });

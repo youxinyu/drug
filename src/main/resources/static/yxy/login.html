@@ -5,13 +5,12 @@
 		<title></title>
 	</head>
 	<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
-	<link rel="stylesheet" href="../css/xcConfirm.css">
+	<link rel="stylesheet" href="bootstrap/xcConfirm.css">
 	 <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
-	<script src="../css/xcConfirm.js"></script>
+	<script src="bootstrap/xcConfirm.js"></script>
 	 <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	 <style>
 		 #login{
-			 height: 400px;
 			 float: right;
 			 margin-right: 37%;
 			 margin-top: 10%;
@@ -38,7 +37,7 @@
 	<body>
 		<div class="container-fluid" >
 			<div id="login" class="col-md-3">
-				<div id="login_title" class="col-md-12 text-center"><h1><font color="white">登录</font></h1></div>
+				<div id="login_title" class="col-md-12 text-center"><img src="img/登录账号.png"/></div>
 				<div>
 					<h3><font color="white">用户账号</font></h3>
 					<input id="account" class="col-md-12 input-lg" placeholder="请输入用户账号"/>
@@ -47,6 +46,7 @@
 					<input id="password" class="col-md-12 input-lg" type="password" placeholder="请输入用户密码"/>
 					<br><br><br><br>
 					<div class="col-md-3"></div><input class="btn btn-success btn-lg col-md-6" type="button" value="登录" onclick="login()"/>
+					<br><br><br><br>
 				</div>
 			</div>
 		</div>
@@ -72,11 +72,18 @@
                     type: "post",
                     datatype: "json",
                     success: function (data) {
-                        if(data>0){
+                        if(data==1){
                             window.wxc.xcConfirm("登录成功！", window.wxc.xcConfirm.typeEnum.warning);
-						}else{
+                            window.location.href="main.html";
+						}else if(data==2){
+                            window.wxc.xcConfirm("密码错误！", window.wxc.xcConfirm.typeEnum.warning);
+						}else if(data==3){
+                            window.wxc.xcConfirm("用户名不存在！", window.wxc.xcConfirm.typeEnum.warning);
+                        }else if(data==4){
+                            window.wxc.xcConfirm("用户已离职！", window.wxc.xcConfirm.typeEnum.warning);
+                        }else{
                             window.wxc.xcConfirm("登录失败！", window.wxc.xcConfirm.typeEnum.warning);
-						}
+                        }
                     }
                 });
 			}
