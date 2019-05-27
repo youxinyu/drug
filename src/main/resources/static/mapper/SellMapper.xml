@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.guigu.drug.tanlong.dao.SellDao" >
+
+
+        <resultMap id="SellMap" type="com.guigu.drug.tanlong.pojo.Sell">
+            <id column="sellid" property="sellid" jdbcType="INTEGER"></id>
+            <result column="drugid" property="drugid" jdbcType="INTEGER"></result>
+            <result column="clientid" property="clientid" jdbcType="INTEGER"></result>
+            <result column="squantitys" property="squantitys" jdbcType="INTEGER"></result>
+            <result column="sprices" property="sprices" jdbcType="DOUBLE"></result>
+            <result column="sdate" property="sdate" jdbcType="VARCHAR"></result>
+            <result column="strusts" property="strusts" jdbcType="VARCHAR"></result>
+
+
+            <association property="d" javaType="com.guigu.drug.tanlong.pojo.DrugInfo">
+                <id column="drugid" property="drugid" jdbcType="INTEGER"></id>
+                <result column="drugbarcode" property="drugbarcode" jdbcType="VARCHAR"></result>
+                <result column="drugname" property="drugname" jdbcType="VARCHAR"></result>
+                <result column="drugabbreviation" property="drugabbreviation" jdbcType="VARCHAR"></result>
+                <result column="drugspecification" property="drugspecification" jdbcType="VARCHAR"></result>
+                <result column="drugunit" property="drugunit" jdbcType="VARCHAR"></result>
+                <result column="drugproduceaddress" property="drugproduceaddress" jdbcType="VARCHAR"></result>
+                <result column="drugapprovalnumber" property="drugapprovalnumber" jdbcType="VARCHAR"></result>
+                <result column="drugproductdate" property="drugproductdate" jdbcType="VARCHAR"></result>
+                <result column="drugbaozhiqi" property="drugbaozhiqi" jdbcType="INTEGER"></result>
+                <result column="drugstock" property="drugstock" jdbcType="INTEGER"></result>
+                <result column="drugbuyingprice" property="drugbuyingprice" jdbcType="DOUBLE"></result>
+                <result column="drugsellingprice" property="drugsellingprice" jdbcType="DOUBLE"></result>
+            </association>
+
+            <association property="c" javaType="com.guigu.drug.tanlong.pojo.ClientInfo">
+                <id column="clientid" property="clientid" jdbcType="INTEGER"></id>
+                <result column="clientname" property="clientname" jdbcType="VARCHAR"></result>
+                <result column="clientpinyin" property="clientpinyin" jdbcType="VARCHAR"></result>
+                <result column="clientabbreviation" property="clientabbreviation" jdbcType="VARCHAR"></result>
+                <result column="clientcontacts" property="clientcontacts" jdbcType="VARCHAR"></result>
+                <result column="clientaddress" property="clientaddress" jdbcType="VARCHAR"></result>
+                <result column="clientyoubian" property="clientyoubian" jdbcType="VARCHAR"></result>
+                <result column="clientphone" property="clientphone" jdbcType="VARCHAR"></result>
+                <result column="clientfax" property="clientfax" jdbcType="VARCHAR"></result>
+                <result column="clientopenbank" property="clientopenbank" jdbcType="VARCHAR"></result>
+                <result column="clientcardno" property="clientcardno" jdbcType="VARCHAR"></result>
+                <result column="clientsalesman" property="clientsalesman" jdbcType="INTEGER"></result>
+            </association>
+
+        </resultMap>
+
+
+        <insert id="selladd" parameterType="com.guigu.drug.tanlong.pojo.Sell" >
+
+            insert into sell(drugid,clientid,squantitys,sprices,sdate,strusts) values(#{drugid},#{clientid},#{squantitys},#{sprices},#{sdate},#{strusts});
+
+        </insert>
+
+
+        <update id="sellupd" parameterType="com.guigu.drug.tanlong.pojo.Sell">
+
+          update sell set strusts='不可退货' where sellid=#{sellid}
+
+        </update>
+
+        <update id="sellupd2" parameterType="com.guigu.drug.tanlong.pojo.Sell">
+
+          update sell set strusts='已退货' where sellid=#{sellid}
+
+        </update>
+
+        <select id="selllist" resultMap="SellMap">
+
+            select  s.sellid,s.drugid,s.clientid,d.drugbarcode,d.drugname,d.drugsellingprice,s.squantitys,s.sprices,s.sdate,c.clientname from sell s INNER JOIN druginfo d INNER JOIN clientinfo c on s.drugid=d.drugid and s.clientid=c.clientid where s.strusts='可退货'
+
+        </select>
+
+
+</mapper>

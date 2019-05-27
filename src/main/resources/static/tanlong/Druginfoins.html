@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>新添药品</title>
+</head>
+<link rel="stylesheet" href="3.5.js/bootstrap.min.css" />
+<script type="text/javascript" src="js/jquery-3.3.1.js" ></script>
+<script type="text/javascript" src="js/bootstrap.min.js" ></script>
+<script type="text/javascript" src="js/bootstrap-paginator.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.14.2/dist/bootstrap-table.min.css">
+
+<style type="text/css">
+    th{
+        text-align:center;/** 设置水平方向居中 */
+        vertical-align:middle/** 设置垂直方向居中 */
+    }
+</style>
+
+<body>
+
+        <!-- 药品采购按钮 -->
+        <button type="button" id="but1" class="btn btn-success" onclick="drugadd()">+药品采购</button>
+
+        <!-- 模态框 -->
+        <div class="modal" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLable" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 class="modal-title" align="center">药品采购</h3>
+                    </div>
+                    <!-- 模态框主体 -->
+                    <div class="modal-body" align="center">
+                        <br>
+                        <div class="row">
+                            <div class="col-xl-1"></div>
+                            <div class="col-xl-5">
+                                药品条形码:<input style="width: 600px;" type="text" id="drugbarcode" class="form-control">
+                            </div>
+                            <div class="col-xl-5">
+                                药品名称:<input style="width: 600px;" type="text" id="drugname" class="form-control">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xl-1"></div>
+                            <div class="col-xl-5">
+                                药品简称:<input style="width: 600px;" type="text"  id="drugabbreviation" class="form-control">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xl-1"></div>
+                            <div class="col-xl-5">
+                                药品规格:<input style="width: 600px;" type="text"  id="drugspecification" class="form-control">
+                            </div>
+                            <div class="col-xl-5">
+                                药品单位:<input style="width: 600px;" type="text" id="drugunit" class="form-control">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xl-1"></div>
+                            <div class="col-xl-5">
+                                药品产地:<input style="width: 600px;" type="text"  id="drugproduceaddress" class="form-control">
+                            </div>
+                            <div class="col-xl-5">
+                                药品批准文号:<input style="width: 600px;" type="text" id="drugapprovalnumber" class="form-control">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xl-1"></div>
+                            <div class="col-xl-5">
+                                药品保质期:<input style="width: 600px;" type="text"  id="dugbaozhiqi" class="form-control">
+                            </div>
+                            <div class="col-xl-5">
+                                药品生产日期:<input style="width: 600px;" type="text" id="drugproductdate" class="form-control">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xl-1"></div>
+                            <div class="col-xl-5">
+                                药品进货价:<input style="width: 600px;" type="text"  id="drugbuyingprice" class="form-control">
+                            </div>
+                            <div class="col-xl-5">
+                                药品售货价:<input style="width: 600px;" type="text" id="drugsellingprice" class="form-control">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xl-1"></div>
+                            <div class="col-xl-5">
+                                药品采购数量:<input style="width: 600px;" type="text" id="drugstock" class="form-control">
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- 模态框底部 -->
+                    <div class="modal-footer">
+                        <button type="button" onclick="purchaseGo()"  class="btn btn-success">确定采购</button>
+                        <button type="button" onclick="guanbi()" class="btn btn-default" >关闭</button>
+                    </div>
+                </div>
+            </div>
+        </div><!-- 结束  -->
+
+</body>
+
+<script>
+
+    /* $("#but1").click(function(){
+        var txt=  "药品条形码:<input />" +
+            "药品名称:<input />" +
+            "药品简称:<input />" +
+            "药品拼音码:<input />" +
+            "药品规格:<input />" +
+            "药品单位:<input />" +
+            "药品产地:<input />" +
+            "药品批准文号:<input />" +
+            "药品进货价:<input />" +
+            "药品售货价:<input />";
+       var option = {
+            title: "药品采购",
+            btn: parseInt("0011",2),
+            onOk: function(){
+                go();
+            }
+        }
+        window.wxc.xcConfirm(txt, "custom", option);
+
+    });*/
+
+    function  drugadd() {
+        $("#myModal").modal("show");
+    }
+    
+    function purchaseGo() {
+        $.ajax({
+            url:"/tanlong/druginfoins.do",
+            type:"post",
+            data:{
+                drugbarcode:$("#drugbarcode").val(),
+                drugname:$("#drugname").val(),
+                drugabbreviation:$("#drugabbreviation").val(),
+                drugspecification:$("#drugspecification").val(),
+                drugunit:$("#drugunit").val(),
+                drugproduceaddress:$("#drugproduceaddress").val(),
+                drugapprovalnumber:$("#drugapprovalnumber").val(),
+                drugbuyingprice:$("#drugbuyingprice").val(),
+                drugsellingprice:$("#drugsellingprice").val(),
+                drugstock:$("#drugstock").val(),
+                dugbaozhiqi:$("#dugbaozhiqi").val(),
+                drugproductdate:$("#drugproductdate").val()
+            },success:function(data){
+                    if(data>0){
+                        $('#myModal').modal("hide");
+                        var txt=  "新药品采购成功";
+                        window.wxc.xcConfirm(txt, window.wxc.xcConfirm.typeEnum.success);
+                    }else{
+                            var txt=  "新药品采购失败";
+                            window.wxc.xcConfirm(txt, window.wxc.xcConfirm.typeEnum.error);
+                    }
+            }
+        })
+    }
+
+    function go() {
+
+    }
+
+    function guanbi(){
+            $("#drugbarcode").val("");
+            $("#drugname").val("");
+            $("#drugabbreviation").val("");
+            $("#drugspecification").val("");
+            $("#drugunit").val("");
+            $("#drugproduceaddress").val("");
+            $("#drugapprovalnumber").val("");
+            $("#drugbuyingprice").val("");
+            $("#drugsellingprice").val("");
+            $("#drugstock").val("");
+            $("#dugbaozhiqi").val("");
+            $("#drugproductdate").val("");
+            $('#myModal').modal("hide");
+    }
+
+</script>
+
+</html>
