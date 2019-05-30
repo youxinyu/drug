@@ -166,4 +166,45 @@
         </where>
         order by d.rdate desc
     </select>
+        <resultMap id="sellreturnMap" type="com.guigu.drug.wzr.domain.Sales">
+            <id column="sid" property="sid" jdbcType="INTEGER"></id>
+            <result column="stime" property="stime" jdbcType="VARCHAR"></result>
+            <result column="squantity" property="squantity" jdbcType="INTEGER"></result>
+            <result column="sprice" property="sprice" jdbcType="DOUBLE"></result>
+            <collection property="o" javaType="com.guigu.drug.wzr.domain.Supplierinfo">
+                <result column="suppliername" property="suppliername" jdbcType="VARCHAR"></result>
+            </collection>
+            <collection property="d" javaType="com.guigu.drug.wzr.domain.Druginfo">
+                <result column="drugname" property="drugname" jdbcType="VARCHAR"></result>
+                <result column="drugbuyingprice" property="drugbuyingprice" jdbcType="DOUBLE"></result>
+            </collection>
+            <collection property="g" javaType="com.guigu.drug.wzr.domain.Styledrug">
+                <result column="typedrug" property="typedrug" jdbcType="VARCHAR"></result>
+            </collection>
+            <collection property="u" javaType="com.guigu.drug.wzr.domain.Userinfo">
+                <result column="username" property="username" jdbcType="VARCHAR"></result>
+            </collection>
+        </resultMap>
+    <select id="sellreturnwzr" parameterType="com.guigu.drug.wzr.domain.SalesVo" resultMap="sellreturnMap">
+        select s.sid,o.suppliername,d.drugname,g.typedrug,s.stime,u.username,d.drugbuyingprice,s.squantity,
+               s.sprice from sales s INNER JOIN
+                                 druginfo d INNER JOIN supplierinfo o INNER JOIN
+                                 userinfo u inner join styledrug g on s.drugid=d.drugid and s.supplierid=o.supplierid
+                and s.userid=u.userid and d.typeid=g.typeid
+        <where>
+            <if test="s.suppliername!=null and s.suppliername!=''">
+                o.suppliername like "%"#{s.suppliername}"%"
+            </if>
+            <if test="d.drugname!=null and d.drugname!=''">
+                and d.drugname like "%"#{d.drugname}"%"
+            </if>
+            <if test="e.sid!=null and e.sid!=''">
+                and s.sid=#{e.sid}
+            </if>
+            <if test="date1!=null and date1!='' and date2!=null and date2!=''">
+                and s.stime between #{date1} and #{date2}
+            </if>
+        </where>
+        order by s.stime desc
+    </select>
 </mapper>

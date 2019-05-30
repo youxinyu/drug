@@ -81,7 +81,6 @@ public class MessageController {
     //采购入库查询
     @RequestMapping("drugrecordselect")
     public Map drugrecordselect(int page,String name,String uname,Integer rdid,Integer caigouid,String chandi){
-        System.out.println(rdid);
         Map map = new HashMap();
         Supplierinfo su = new Supplierinfo();
         su.setSuppliername(name);
@@ -95,6 +94,24 @@ public class MessageController {
         List<Drugrecord> drugrecordselect = m.drugrecordselect(new DrugrecordVo(drugrecord, su, drug));
         PageInfo <Drugrecord> pa = new PageInfo<>(drugrecordselect);
         map.put("rows",drugrecordselect);
+        map.put("total",pa.getLastPage());
+        return map;
+    }
+
+    //采购退货信息查询
+    @RequestMapping("sellreturnwzr")
+    public Map sellreturnwzr(int page,String name,String uname,Integer id,String date1,String date2){
+        Map map = new HashMap();
+        Supplierinfo su = new Supplierinfo();
+        su.setSuppliername(name);
+        Druginfo dr = new Druginfo();
+        dr.setDrugname(uname);
+        Sales sa = new Sales();
+        sa.setSid(id);
+        PageHelper.startPage(page,5);
+        List<Sales> sellreturnwzr = m.sellreturnwzr(new SalesVo(su, dr, sa, date1, date2));
+        PageInfo <Sales> pa = new PageInfo<>(sellreturnwzr);
+        map.put("rows",sellreturnwzr);
         map.put("total",pa.getLastPage());
         return map;
     }

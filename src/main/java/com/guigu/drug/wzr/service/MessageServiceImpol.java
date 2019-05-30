@@ -2,6 +2,7 @@ package com.guigu.drug.wzr.service;
 
 import com.guigu.drug.wzr.dao.MessageMapper;
 import com.guigu.drug.wzr.domain.*;
+import org.apache.ibatis.annotations.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -9,6 +10,7 @@ import java.util.List;
 
 @Service
 public class MessageServiceImpol implements MessageService {
+
 
     @Autowired
     private MessageMapper mapper;
@@ -23,6 +25,10 @@ public class MessageServiceImpol implements MessageService {
         return mapper.drugrecordselect(vo);
     }
 
+    @Override
+    public List<Sales> sellreturnwzr(SalesVo vo) {
+        return mapper.sellreturnwzr(vo);
+    }
     @Override
     public List<Druginfo> drugselectwzr(DrugwzrVo vo) {
         List<Druginfo> drugselectwzr = mapper.drugselectwzr(vo);

@@ -22,4 +22,7 @@ public interface MessageMapper {
     //采购入库信息查询
     List<Drugrecord> drugrecordselect(DrugrecordVo vo);
 
+    //采购退货信息查询
+    List<Sales> sellreturnwzr(SalesVo vo);
+
 }
